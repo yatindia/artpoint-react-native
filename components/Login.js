@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, TextInput, Button, Image } from 'react-native';
+import { StyleSheet, Text, View, TextInput,Image, Pressable, KeyboardAvoidingView } from 'react-native';
+import {GStyle} from "../screens/global.style"
 import { API } from "../data"
 import localStorage from "@react-native-async-storage/async-storage"
 
@@ -12,10 +13,9 @@ export default function Login({ navigation }) {
 
   const handleLogin = async () => {
 
-    if (userName == '' || password == '') { setErr(true) }
+    if (userName == '' || password == '') { setErr(true);}
 
     else {
-
       await fetch(`${API}/distributer/login`, {
         method: "POST",
         headers: {
@@ -29,13 +29,15 @@ export default function Login({ navigation }) {
 
         .then(res => res.json())
         .then(res => {
-
+        
           if (res.status) {
+            setErr(false);
             localStorage.setItem('login', JSON.stringify(res))
             navigation.navigate("Home")
           } else {
             throw new Error
           }
+
         })
         .catch(err => {
           setErr(true)
@@ -48,7 +50,7 @@ export default function Login({ navigation }) {
 
   return (
 
-    <View style={styles.container}>
+    <KeyboardAvoidingView style={styles.container}>
       <Text style={styles.heading_m}>ART POINT</Text>
       <Text style={styles.heading_s}>Distributer Login</Text>
 
@@ -74,15 +76,27 @@ export default function Login({ navigation }) {
 
       <View style={{ flexDirection:"row" }}>
           <View style={styles.buttonStyle}>
-          <Button  onPress={() => { handleLogin() }} title='Login' />
+
+          <Pressable  android_ripple={{color: '#fff' }}  style={GStyle.button} onPress={() => { handleLogin() }} >
+              <Text style={GStyle.button_text}>Login</Text>
+          </Pressable>
+
+          {/* <Button style={}  title='Login' /> */}
           </View>
           <View style={styles.buttonStyle}>
-              <Button onPress={() => { handleLogin() }} title='View Catelog'/>
+
+          <Pressable style={GStyle.button} onPress={() => { handleLogin() }} >
+              <Text style={GStyle.button_text}>Catelog</Text>
+          </Pressable>
+
           </View>
       </View>
 
 
-    </View>
+
+    
+    </KeyboardAvoidingView>
+  
 
   );
 }
@@ -99,6 +113,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
+    alignItems: 'center'
   },
 
   subContainer: {
