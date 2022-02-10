@@ -1,8 +1,8 @@
-import { View, Text, StyleSheet, Image, Dimensions, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, Image, Dimensions, ScrollView, SafeAreaView } from 'react-native';
 import React, {useState, useEffect} from 'react';
 import { SliderBox } from "react-native-image-slider-box";
 import {API} from "../data"
-
+import Trending from "./internal/Trending"
 
 export default function Home() {
 
@@ -28,7 +28,8 @@ export default function Home() {
   },[])
 
   return (
-    <ScrollView>
+    <SafeAreaView>
+      <ScrollView>
       <SliderBox autoplay={true} circleLoop={true} images={image} />
 
       <View style={style.category_container}>
@@ -69,7 +70,10 @@ export default function Home() {
 
       </View>
 
+      <Trending/>
+
     </ScrollView>
+    </SafeAreaView>
   );
 }
 
