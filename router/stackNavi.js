@@ -24,5 +24,5 @@ const screens = {
     SpecificOrders: SpecificOrders
 }
 
-const stackNavi = createStackNavigator(screens)
-export default createAppContainer(stackNavi);
+const OrderStackNavi = createStackNavigator(screens)
+export let OrderNavigation = createAppContainer(OrderStackNavi);

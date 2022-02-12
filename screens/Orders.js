@@ -1,7 +1,7 @@
 import { View, Text } from 'react-native'
 import React from 'react'
-import StackNavigator from "../router/ordersStackNavi"
+import {OrderNavigation} from "../router/stackNavi"
 
 export default function Orders() {
-  return (<StackNavigator/>)
+  return (<OrderNavigation/>)
 }
