@@ -1,9 +1,11 @@
 import {createStackNavigator} from "react-navigation-stack"
 import {createAppContainer} from "react-navigation"
 import SpecificOrders from "../screens/internal/SpecificOrders"
-
 import { View, Text,Button } from "react-native"
-
+import PDTcategory from "../screens/products/PDTcategory"
+import PDT from "../screens/products/PDT"
+import ViewProduct from "../screens/products/ViewProduct"
+import OrderProduct from "../screens/products/OrderProduct"
 
 const main = ({navigation}) =>{
     return (
@@ -19,10 +21,23 @@ const main = ({navigation}) =>{
       )
 }
 
-const screens = {
+const order_screens = {
     Main: main,
     SpecificOrders: SpecificOrders
 }
 
-const OrderStackNavi = createStackNavigator(screens)
+
+const product_screens = {
+    Home: PDTcategory,
+    Products: PDT,
+    ViewProduct: ViewProduct,
+    Order: OrderProduct
+        
+    
+}
+
+const OrderStackNavi = createStackNavigator(order_screens)
 export let OrderNavigation = createAppContainer(OrderStackNavi);
+
+const PDTStackNavi = createStackNavigator(product_screens)
+export let PDTNavigation = createAppContainer(PDTStackNavi);

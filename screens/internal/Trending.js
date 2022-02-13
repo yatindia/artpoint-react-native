@@ -1,14 +1,17 @@
 import { View, Text, StyleSheet, Dimensions, Image,ImageBackground, Pressable } from 'react-native'
 import React, {useEffect, useState} from 'react'
 import {API} from "../../data"
+import localStorage from "@react-native-async-storage/async-storage"
 
 export default function Trending() {
 
+
   const [trend, setTrend] = useState([])
+
+
 
   useEffect(async ()=>{
 
- 
     try {
     
       await fetch(`${API}/products/list_trend`, {method : "POST"})
@@ -17,10 +20,14 @@ export default function Trending() {
         setTrend(res.data)
         
       })
+
     } catch (error) {}
 
 
-    return ()=>{setTrend([])}
+    return ()=>{
+      setTrend([])
+      
+    }
 
 
   },[])
@@ -41,9 +48,17 @@ export default function Trending() {
 
         {trend.map((info, i)=>{return(
 
-            <ImageBackground resizeMode='cover' source={{uri: info.image}}  key={i}  style={style.pdt_image_container} >
-            </ImageBackground>
+            <Pressable key={i}>
+                <ImageBackground  resizeMode='cover' source={{uri: info.image}}    style={style.pdt_image_container} >
+                <Image 
+                    source={require("../../assets/icons/heart.png")} 
+                    style={{
+                      ...style.pdt_heart
+                    }} 
+                  />
+              </ImageBackground>
 
+            </Pressable>
          
 
             
@@ -88,9 +103,14 @@ const style = StyleSheet.create({
         height:  width/3.5,
         width:  width/2 -20,
         margin: 10
-
-
       },  
+
+      pdt_heart:{
+        width: 15,
+        height: 15,
+        top:5,
+        left:5
+      }
 
      
     
