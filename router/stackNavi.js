@@ -6,6 +6,7 @@ import PDTcategory from "../screens/products/PDTcategory"
 import PDT from "../screens/products/PDT"
 import ViewProduct from "../screens/products/ViewProduct"
 import OrderProduct from "../screens/products/OrderProduct"
+import Trending from "../screens/internal/Trending"
 
 const main = ({navigation}) =>{
     return (
@@ -31,7 +32,8 @@ const product_screens = {
     Home: PDTcategory,
     Products: PDT,
     ViewProduct: ViewProduct,
-    Order: OrderProduct
+    Order: OrderProduct,
+    Trending: Trending
         
     
 }

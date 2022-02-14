@@ -1,8 +1,7 @@
 import { View, Text, StyleSheet, Image, Dimensions, ScrollView, SafeAreaView } from 'react-native';
 import React, {useState, useEffect} from 'react';
-
-import {API} from "../data"
 import {PDTNavigation} from "../router/stackNavi"
+
 
 export default function Home() {
 

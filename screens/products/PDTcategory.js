@@ -2,7 +2,7 @@ import { View, Text, StyleSheet, Image, Dimensions, SafeAreaView, ScrollView, Pr
 import React, {useState, useEffect} from 'react';
 import { SliderBox } from "react-native-image-slider-box";
 import {API} from "../../data"
-
+import Trending from '../internal/Trending';
 
 export default function PDTcategory({navigation}) {
 
@@ -30,7 +30,7 @@ export default function PDTcategory({navigation}) {
 
   return (
     <SafeAreaView>
-        <ScrollView>
+        <ScrollView scrollEnabled={true}>
         <SliderBox autoplay={true} circleLoop={true} images={image} />
       <View style={style.category_container}>
 
@@ -71,6 +71,7 @@ export default function PDTcategory({navigation}) {
         }
 
       </View>
+      <Trending props={{navigation}}/>
         </ScrollView>
     </SafeAreaView>
   );

@@ -1,118 +1,130 @@
-import { View, Text, StyleSheet, Dimensions, Image,ImageBackground, Pressable } from 'react-native'
+import { View, Pressable, SafeAreaView, ScrollView, StyleSheet, ImageBackground, Dimensions, Image, Alert, FlatList, Text} from 'react-native'
 import React, {useEffect, useState} from 'react'
-import {API} from "../../data"
-import localStorage from "@react-native-async-storage/async-storage"
-
-export default function Trending() {
+import ImageView from "../internal/ImageView";
+import { API } from '../../data'
 
 
-  const [trend, setTrend] = useState([])
+const [width, height] = [Dimensions.get("screen").width, Dimensions.get("screen").height]
 
+export default function Trending({props}) {
 
+  let {navigation} = props
+  const [products, setProducts] = useState([])
 
   useEffect(async ()=>{
-
-    try {
-    
-      await fetch(`${API}/products/list_trend`, {method : "POST"})
+      await fetch(`${API}/products/list_trend`, {
+        method: "POST",
+        headers:{"Content-Type": "application/json"},
+      })
       .then(res => res.json())
       .then(res=> {
-        setTrend(res.data)
-        
+        setProducts(res.data)
+       
       })
-
-    } catch (error) {}
-
-
-    return ()=>{
-      setTrend([])
-      
-    }
-
 
   },[])
 
+  const LoadMore = ()=>{
+    //   if (current > skip){Alert.alert("Product End Reached")}
+      Alert.alert("Product End Reached")
+  }
+
+  const isCloseToBottom = ({layoutMeasurement, contentOffset, contentSize}) => {
+    const paddingToBottom = 20;
+    return layoutMeasurement.height + contentOffset.y >=
+      contentSize.height - paddingToBottom;
+  };
+  
+
+
 
   return (
-    <View>
-
-      <View  style={style.pdt_text_container}>
-
-        <Text style={style.pdt_head}>
-          Trending
-        </Text>
-
+    <>
+          
+      <View  style={style.category_text_container}>
+        <Text style={style.category_text}>Trending</Text>
       </View>
 
-      <View style={style.pdt_sub_container}>
+      <FlatList
+      keyExtractor={(item)=>{item._id}}
+          data={products}
+          numColumns={2}
+          onEndReached={()=>{}}
+          renderItem={({item})=>{
 
-        {trend.map((info, i)=>{return(
-
-            <Pressable key={i}>
-                <ImageBackground  resizeMode='cover' source={{uri: info.image}}    style={style.pdt_image_container} >
-                <Image 
-                    source={require("../../assets/icons/heart.png")} 
-                    style={{
-                      ...style.pdt_heart
-                    }} 
-                  />
-              </ImageBackground>
-
-            </Pressable>
-         
-
+              return (
             
-        )})}
-      </View>
-    </View>
+                  <View style={style.sub_container} >
+                      <Pressable onPress={()=>navigation.navigate("Order", {item})} >
+                          <ImageView props={{uri: item.image}} />
+                      </Pressable>
+                      <View style={style.buttons}>
+                          <Pressable style={style.button}>
+                              <Image style={style.icon} source={require("../../assets/icons/heart.png")}/>
+                          </Pressable>
+                          <Pressable onPress={()=>navigation.navigate("ViewProduct", {uri:item.image})} style={style.button}>
+                              <Image style={style.icon} source={require("../../assets/icons/eye.png")}/>
+                          </Pressable>
+                      </View>
+                  </View>
+        
+          );
+          }}
+
+
+      />
+
+    </>
+
+
   )
 }
 
-const [width, height] = [Dimensions.get("screen").width, Dimensions.get("screen").height ]
 
 const style = StyleSheet.create({
 
-    pdt_text_container:{
-        width: width,
-        height: 50,
-        justifyContent:'center',
-        alignItems: 'center',
-        backgroundColor: "#fff",
-        marginTop: 10,
-        borderBottomColor: "red",
-        borderBottomWidth: 5,
+    container: {
+        flexDirection: "row",
+        flexWrap: "wrap"
+    },
+
+    sub_container: {
         
+    },
 
-      },
-    
-      pdt_head: {
-        textTransform: 'uppercase',
-        fontWeight:'bold'
-      },
-
-      pdt_sub_container:{
-        justifyContent:'center',
+    buttons: {
+        flexDirection: "row",
+        justifyContent: 'center'
+    },
+    button: {
+  
+        width: width/4.2,
+        backgroundColor: "red",
+        justifyContent: "center",
         alignItems: 'center',
-        flexDirection: 'row',
-        flexWrap: 'wrap',
-        marginTop: 10
-      },
+        height: 30
 
-
-      pdt_image_container:{
-        height:  width/3.5,
-        width:  width/2 -20,
-        margin: 10
-      },  
-
-      pdt_heart:{
+    },
+    icon: {
         width: 15,
         height: 15,
-        top:5,
-        left:5
-      }
-
-     
-    
-    
+        tintColor: "#fff"
+    },
+    category_text_container:{
+      width: "92%",
+      marginLeft: "4%",
+      height: 50,
+      justifyContent:'center',
+      alignItems: 'center',
+      backgroundColor: "#fff",
+      marginTop: 10,
+      borderBottomColor: "red",
+      borderBottomWidth: 5
+    },
+  
+    category_text: {
+      textTransform: 'uppercase',
+      fontWeight:'bold'
+    },
+  
 })
