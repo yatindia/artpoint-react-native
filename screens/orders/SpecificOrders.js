@@ -1,6 +1,6 @@
-import { View, Text } from 'react-native'
+import { View, Text} from 'react-native'
 import React, {useState, useEffect} from 'react'
-import Order from "../internal/Order"
+import ViewOrder from "../internal/ViewOrder"
 
 export default function OrderProduct({navigation}) {
 
@@ -9,13 +9,17 @@ export default function OrderProduct({navigation}) {
 
   useEffect(() => {
     
-    setItems(navigation.state.params.item)
+    setItems(navigation.state.params.data)
+    
 
   
     return () => {
       setItems({})
     }
   }, [])
+
+
+
 
   if (items == null) {
     return (
@@ -25,7 +29,7 @@ export default function OrderProduct({navigation}) {
     )
   }else {
     return (
-      <Order props={items} />
+      <ViewOrder props={{data:items,navigation}} />
     )
   }
   

@@ -1,8 +1,9 @@
-import { View, Text, StyleSheet, Image, Dimensions, SafeAreaView, ScrollView, Pressable} from 'react-native';
+import { View, Text, StyleSheet, Image, Dimensions, SafeAreaView, Pressable} from 'react-native';
 import React, {useState, useEffect} from 'react';
 import { SliderBox } from "react-native-image-slider-box";
 import {API} from "../../data"
 import Trending from '../internal/Trending';
+import { ScrollView } from 'react-native-virtualized-view';
 
 export default function PDTcategory({navigation}) {
 
@@ -25,12 +26,17 @@ export default function PDTcategory({navigation}) {
       })
     } catch (error) {}
 
+    return ()=>{
+      setcategory([])
+      setImage([])
+    }
+
 
   },[])
 
   return (
     <SafeAreaView>
-        <ScrollView scrollEnabled={true}>
+        <ScrollView>
         <SliderBox autoplay={true} circleLoop={true} images={image} />
       <View style={style.category_container}>
 
@@ -91,6 +97,7 @@ const style = StyleSheet.create({
   
   category_image_container:{
     padding: 6,
+    elevation: 5
   },
 
   category_text_container:{
@@ -99,26 +106,30 @@ const style = StyleSheet.create({
     height: 50,
     justifyContent:'center',
     alignItems: 'center',
-    backgroundColor: "#fff",
+    // backgroundColor: "#fff",
     marginTop: 10,
-    borderBottomColor: "red",
-    borderBottomWidth: 5
+    // borderBottomColor: "red",
+    // borderBottomWidth: 5
   },
 
   category_text: {
     textTransform: 'uppercase',
-    fontWeight:'bold'
+    fontWeight:'bold',
+    fontSize: 25
   },
 
   subCategory_text: {
     textAlign:"center",
-    backgroundColor: "red",
-    fontWeight: "bold",
-    color:"#fff",
+    color:"#000",
+    fontSize: 8,
+    textTransform: 'capitalize',
+    paddingTop: 5
   },
 
   category_image : {
-    width: Dimensions.get("screen").width/3.5,
-    height: Dimensions.get("screen").width/3.5
+    width: Dimensions.get("screen").width/5.5,
+    height: Dimensions.get("screen").width/5.5,
+    borderRadius: 5
+
   }
 })

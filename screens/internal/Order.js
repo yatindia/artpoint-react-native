@@ -22,7 +22,7 @@ export default function Order({props}) {
 
     const [glass, setGlass] = useState(4);
     const [sglass, setSGlass] = useState(0);
-    const [quantity, setQuantity] = useState(0);
+    const [quantity, setQuantity] = useState(1);
 
     const [arc, setarc] = useState(false);
 
@@ -44,6 +44,7 @@ export default function Order({props}) {
             varnish : varnish,
             whiteCoat : whiteCoat,
             quantity: quantity,
+            glass: glass,
             price: 0,
             sandwich : sglass,
             message : "",
@@ -70,6 +71,7 @@ export default function Order({props}) {
     
     useEffect(async ()=>
     {
+        console.log(distributerId);
         setOrder({
             product_id : data._id ,
             order_details  :{
@@ -78,6 +80,7 @@ export default function Order({props}) {
                 arc : arc,
                 varnish : varnish,
                 whiteCoat : whiteCoat,
+                glass:glass,
                 quantity: quantity,
                 price: 0,
                 sandwich : sglass,
@@ -95,7 +98,7 @@ export default function Order({props}) {
             category:data.category,
             subCategory: data.subCategory
         })
-    }, [h1, h2, w1, w2, glass, sglass,quantity,arc,varnish,whiteCoat,imagePosition])
+    }, [h1, h2, w1, w2, glass, sglass,quantity,arc,varnish,whiteCoat,imagePosition, distributerId])
 
     const handlePlaceOrder = async ()=>{
 

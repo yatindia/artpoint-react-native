@@ -1,10 +1,7 @@
-import { View, Pressable, SafeAreaView, ScrollView, StyleSheet, ImageBackground, Dimensions, Image, Alert, FlatList, Text} from 'react-native'
+import { View, Pressable, StyleSheet, Alert, FlatList, Text} from 'react-native'
 import React, {useEffect, useState} from 'react'
 import ImageView from "../internal/ImageView";
 import { API } from '../../data'
-
-
-const [width, height] = [Dimensions.get("screen").width, Dimensions.get("screen").height]
 
 export default function Trending({props}) {
 
@@ -19,10 +16,14 @@ export default function Trending({props}) {
       .then(res => res.json())
       .then(res=> {
         setProducts(res.data)
+
        
       })
 
+      return ()=>{setProducts([])}
+
   },[])
+
 
   const LoadMore = ()=>{
     //   if (current > skip){Alert.alert("Product End Reached")}
@@ -46,7 +47,7 @@ export default function Trending({props}) {
       </View>
 
       <FlatList
-      keyExtractor={(item)=>{item._id}}
+          keyExtractor={(item)=>{item._id}}
           data={products}
           numColumns={2}
           onEndReached={()=>{}}
@@ -55,17 +56,9 @@ export default function Trending({props}) {
               return (
             
                   <View style={style.sub_container} >
-                      <Pressable onPress={()=>navigation.navigate("Order", {item})} >
+                      <Pressable style={style.image} onPress={()=>navigation.navigate("Order", {item})} >
                           <ImageView props={{uri: item.image}} />
                       </Pressable>
-                      <View style={style.buttons}>
-                          <Pressable style={style.button}>
-                              <Image style={style.icon} source={require("../../assets/icons/heart.png")}/>
-                          </Pressable>
-                          <Pressable onPress={()=>navigation.navigate("ViewProduct", {uri:item.image})} style={style.button}>
-                              <Image style={style.icon} source={require("../../assets/icons/eye.png")}/>
-                          </Pressable>
-                      </View>
                   </View>
         
           );
@@ -83,48 +76,21 @@ export default function Trending({props}) {
 
 const style = StyleSheet.create({
 
-    container: {
-        flexDirection: "row",
-        flexWrap: "wrap"
-    },
+  category_text_container: {
+    marginTop: 50
+  },
 
-    sub_container: {
-        
-    },
+  sub_container: {
+      margin: 15,
+      marginBottom: 0,
+  },
 
-    buttons: {
-        flexDirection: "row",
-        justifyContent: 'center'
-    },
-    button: {
-  
-        width: width/4.2,
-        backgroundColor: "red",
-        justifyContent: "center",
-        alignItems: 'center',
-        height: 30
+  category_text: {
+    textTransform: 'uppercase',
+    fontWeight:'bold',
+    fontSize: 25,
+    textAlign: "center"
+  },
 
-    },
-    icon: {
-        width: 15,
-        height: 15,
-        tintColor: "#fff"
-    },
-    category_text_container:{
-      width: "92%",
-      marginLeft: "4%",
-      height: 50,
-      justifyContent:'center',
-      alignItems: 'center',
-      backgroundColor: "#fff",
-      marginTop: 10,
-      borderBottomColor: "red",
-      borderBottomWidth: 5
-    },
-  
-    category_text: {
-      textTransform: 'uppercase',
-      fontWeight:'bold'
-    },
-  
-})
+    
+  })

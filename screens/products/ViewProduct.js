@@ -1,4 +1,4 @@
-import { View, Text, Image, Dimensions, StyleSheet } from 'react-native'
+import { View, Image, Dimensions, StyleSheet } from 'react-native'
 import React, { useState, useEffect } from 'react'
 import PinchZoomView from 'react-native-pinch-zoom-view';
 console.warn = () => {}
@@ -18,7 +18,17 @@ export default function ViewProduct({navigation}) {
             setSizeValue({
                height, width
             })
+
+
          })
+
+
+         return ()=>{
+             setSizeValue({
+                height: 10,
+                width: 10
+            })
+         }
 
     },[])
 

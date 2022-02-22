@@ -56,7 +56,8 @@ export default function App() {
         }} />
 
         <Tab.Screen name="Settings" component={Settings} options={{
-            headerShown: false,
+            // headerShown: false,
+            headerTitleAlign: "center",
             tabBarIcon : ({focused})=>{
               return <Image style={{...style.tabBarIcons , tintColor: focused? "red": "grey"}} source={require("../assets/icons/gear.png")} />
             }

@@ -13,7 +13,12 @@ const [width, height] = [Dimensions.get("screen").width, Dimensions.get("screen"
 
   return (
   <>
-    <ImageBackground style={{height: width/3.5,width:width/2-10, margin: 5}} source={image}/>
+    <ImageBackground 
+    resizeMode= 'contain'
+    style={{
+      height: width/3.5,
+      width:width/2-30,
+      }} source={image}/>
   </>
     
   )

@@ -6,24 +6,15 @@ import localStorage from "@react-native-async-storage/async-storage"
 import { useIsFocused } from '@react-navigation/native'
 const [width, height] = [Dimensions.get("screen").width, Dimensions.get("screen").height]
 
-export default function PDT({navigation}) {
+export default function Favorites({navigation}) {
 
   const isFocused = useIsFocused();
 
-  const {subCategory, category} = navigation.state.params
   const [products, setProducts] = useState([])
-
   const [refresh, setRefresh] = useState(0)
   const [fav, setFav] = useState([])
 
-  useEffect(()=>{
-    console.log("re");
-  setRefresh(refresh+1)
-  setRefresh(refresh+1)
-
-  return ()=>{setRefresh(0)}
-},[isFocused])
-
+ 
 
   useEffect(async () => {
 
@@ -52,10 +43,12 @@ export default function PDT({navigation}) {
 
   useEffect(async ()=>{
 
-      await fetch(`${API}/products/list_by_category`, {
+
+
+      await fetch(`${API}/products/my_fav`, {
         method: "POST",
         headers:{"Content-Type": "application/json"},
-        body: JSON.stringify({subCategory, category})
+        body: JSON.stringify({fav})
       })
       .then(res => res.json())
       .then(res=> { setProducts(res.data) })
@@ -66,7 +59,7 @@ export default function PDT({navigation}) {
       }
 
 
-  },[refresh])
+  },[fav])
 
   const checkFav = (id)=>{
       let result = fav.filter((item)=>{
@@ -106,13 +99,21 @@ export default function PDT({navigation}) {
       })
       .then(res => res.json())
       .then(res=> { 
-          setRefresh(refresh+1) 
+          setRefresh(refresh+1)
         })
 
       
 
   }
 
+
+  useEffect(()=>{
+      
+    setRefresh(refresh+1)
+  
+
+  return ()=>{setRefresh(0)}
+},[isFocused])
 
 
 
