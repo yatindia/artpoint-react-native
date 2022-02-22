@@ -32,7 +32,7 @@ export default function Settings() {
   }, [])
 
   const updatepassword = async () =>{
-    console.log({...passwords, _id: login._id});
+
     await fetch(
       `${API}/distributer/update_password`, {
         method: "post",
@@ -41,7 +41,7 @@ export default function Settings() {
       })
       .then(res => res.json())
       .then(res =>{
-        console.log(res);
+
         if (res.status) {
           setPasswords({
             new_password: "",

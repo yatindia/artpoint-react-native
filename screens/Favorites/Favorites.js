@@ -1,9 +1,10 @@
-import { View, Pressable, SafeAreaView,  StyleSheet, Dimensions, Image, FlatList, Button } from 'react-native'
+import { View, Pressable, SafeAreaView,  StyleSheet, Dimensions, Image, FlatList, Text} from 'react-native'
 import React, {useEffect, useState} from 'react'
 import ImageView from "../internal/ImageView";
 import { API } from '../../data'
 import localStorage from "@react-native-async-storage/async-storage"
 import { useIsFocused } from '@react-navigation/native'
+
 const [width, height] = [Dimensions.get("screen").width, Dimensions.get("screen").height]
 
 export default function Favorites({navigation}) {
@@ -37,8 +38,6 @@ export default function Favorites({navigation}) {
       setFav([])
     }
   }, [refresh])
-  
-
 
 
   useEffect(async ()=>{
@@ -106,14 +105,11 @@ export default function Favorites({navigation}) {
 
   }
 
-
-  useEffect(()=>{
-      
+  useEffect(()=>{      
     setRefresh(refresh+1)
-  
 
-  return ()=>{setRefresh(0)}
-},[isFocused])
+    return ()=>{setRefresh(0)}
+  },[isFocused])
 
 
 
@@ -121,41 +117,39 @@ export default function Favorites({navigation}) {
 
   return (
     <SafeAreaView>
-
-<Button onPress={()=>{setRefresh(refresh+1)}} title="reFresh"/>
         <FlatList
-        keyExtractor={(item)=>{item._id}}
+            // keyExtractor={(item)=>{parseInt((item._id).replace(/\D/g,''))}}
             data={products}
             numColumns={2}
             collapsable={true}
             renderItem={({item})=>{
+        
+              return (
+                  <View style={style.sub_container} >
+                      <Pressable style={style.image} onPress={()=>navigation.navigate("Order", {item})} >
+                          <ImageView props={{uri: item.image}} />
+                      </Pressable>
+                      <View style={style.buttons}>
+                          <Pressable onPress={()=>{updateFav(item._id)}} style={style.button}>
+                              <Image style={{...style.icon, tintColor: checkFav(item._id)}} source={require("../../assets/icons/heart.png")}/>
+                          </Pressable>
+                          <Pressable onPress={()=>navigation.navigate("ViewProduct", {uri:item.image})} style={style.button}>
+                              <Image style={{...style.icon, tintColor: "grey"}} source={require("../../assets/icons/eye.png")}/>
+                          </Pressable>
+                      </View>
+                  </View>
+        
+              );
+            }}/>
 
-
-                return (
-               
-                    <View style={style.sub_container} >
-                        <Pressable style={style.image} onPress={()=>navigation.navigate("Order", {item})} >
-                            <ImageView props={{uri: item.image}} />
-                        </Pressable>
-                        <View style={style.buttons}>
-                            <Pressable onPress={()=>{updateFav(item._id)}} style={style.button}>
-                                <Image style={{...style.icon, tintColor: checkFav(item._id)}} source={require("../../assets/icons/heart.png")}/>
-                            </Pressable>
-                            <Pressable onPress={()=>navigation.navigate("ViewProduct", {uri:item.image})} style={style.button}>
-                                <Image style={{...style.icon, tintColor: "grey"}} source={require("../../assets/icons/eye.png")}/>
-                            </Pressable>
-                        </View>
-                    </View>
-          
-            );
-            }}
-         />
-
-         
+      <Pressable 
+        style={GStyle.button} 
+        onPress={()=>{setRefresh(refresh+1)}}>
+       <Image style={{...GStyle.icon, tintColor: "#fff"}} source={require("../../assets/icons/refresh.png")}/>
+      </Pressable>
     </SafeAreaView>
   )
 }
-
 
 const style = StyleSheet.create({
 
@@ -202,4 +196,27 @@ const style = StyleSheet.create({
         height: 15,
         // tintColor: "grey",
     }
+})
+
+
+const GStyle = StyleSheet.create({
+
+  button: {
+      width: 50,
+      height: 50,
+      alignItems: 'center',
+      justifyContent: 'center',
+      borderRadius: 25,
+      elevation: 3,
+      backgroundColor: 'red',
+      position: 'absolute',
+      bottom:"5%",
+      right: 20
+    },
+
+    icon: {
+      width: 15,
+      height: 15,
+      // tintColor: "grey",
+  }
 })

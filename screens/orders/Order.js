@@ -1,4 +1,4 @@
-import { View, Text, Alert, StyleSheet, FlatList, Pressable, Button, SafeAreaView} from 'react-native'
+import { View, Text, Alert, StyleSheet, FlatList, Pressable, Image, SafeAreaView, Dimensions} from 'react-native'
 import React, {useEffect, useState} from 'react'
 import { API } from '../../data'
 import localStorage from "@react-native-async-storage/async-storage"
@@ -45,8 +45,10 @@ export default function Order({navigation}) {
   
 
   return (
-    <SafeAreaView style={{marginBottom: 36}}>
-      <Button onPress={()=>{setRefresh(refresh+1)}} title="Refresh" />
+    <SafeAreaView  style={{marginBottom: 36, minHeight: "90%"}}>
+     
+
+
       <FlatList
       keyExtractor={(item)=>item._id}
       data={myOrder}
@@ -67,6 +69,12 @@ export default function Order({navigation}) {
         )
       }}
        />
+      <Pressable 
+      android_ripple={true}
+        style={GStyle.button} 
+        onPress={()=>{setRefresh(refresh+1)}}>
+       <Image style={{...GStyle.icon, tintColor: "#fff"}} source={require("../../assets/icons/refresh.png")}/>
+      </Pressable>
     </SafeAreaView>
   )
 }
@@ -109,4 +117,26 @@ const s = StyleSheet.create({
   },
 
   bold: {fontWeight: 'bold'}
+})
+
+const GStyle = StyleSheet.create({
+
+  button: {
+      width: 50,
+      height: 50,
+      alignItems: 'center',
+      justifyContent: 'center',
+      borderRadius: 25,
+      elevation: 3,
+      backgroundColor: 'red',
+      position: 'absolute',
+      bottom:"5%",
+      right: 20
+    },
+
+    icon: {
+      width: 15,
+      height: 15,
+      // tintColor: "grey",
+  }
 })

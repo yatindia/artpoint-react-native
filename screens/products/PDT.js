@@ -1,4 +1,4 @@
-import { View, Pressable, SafeAreaView,  StyleSheet, Dimensions, Image, FlatList, Button } from 'react-native'
+import { View, Pressable, SafeAreaView,  StyleSheet, Dimensions, Image, FlatList } from 'react-native'
 import React, {useEffect, useState} from 'react'
 import ImageView from "../internal/ImageView";
 import { API } from '../../data'
@@ -17,7 +17,6 @@ export default function PDT({navigation}) {
   const [fav, setFav] = useState([])
 
   useEffect(()=>{
-    console.log("re");
   setRefresh(refresh+1)
   setRefresh(refresh+1)
 
@@ -119,9 +118,8 @@ export default function PDT({navigation}) {
 
 
   return (
-    <SafeAreaView>
+    <SafeAreaView style={{marginBottom: 36, minHeight: "90%"}}>
 
-<Button onPress={()=>{setRefresh(refresh+1)}} title="reFresh"/>
         <FlatList
         keyExtractor={(item)=>{item._id}}
             data={products}
@@ -149,7 +147,12 @@ export default function PDT({navigation}) {
             );
             }}
          />
-
+      <Pressable 
+      android_ripple={true}
+        style={GStyle.button} 
+        onPress={()=>{setRefresh(refresh+1)}}>
+        <Image style={{...GStyle.icon, tintColor: "#fff"}} source={require("../../assets/icons/refresh.png")}/>
+      </Pressable>
          
     </SafeAreaView>
   )
@@ -161,7 +164,9 @@ const style = StyleSheet.create({
     image : {
         borderRadius: 10,
         // backgroundColor: "red",
-        overflow: 'hidden'
+        overflow: 'hidden',
+        elevation: 5
+
       },
 
     container: {
@@ -173,13 +178,15 @@ const style = StyleSheet.create({
     sub_container: {
         margin: 15,
         marginBottom: 0,
+        
     },
 
     buttons: {
         flexDirection: "row",
         justifyContent: 'center',
         margin: 0,
-        padding: 0
+        padding: 0,
+        elevation: 6
     },
     button: {
         width: width/4.2,
@@ -201,4 +208,26 @@ const style = StyleSheet.create({
         height: 15,
         // tintColor: "grey",
     }
+})
+
+const GStyle = StyleSheet.create({
+
+  button: {
+      width: 50,
+      height: 50,
+      alignItems: 'center',
+      justifyContent: 'center',
+      borderRadius: 25,
+      elevation: 3,
+      backgroundColor: 'red',
+      position: 'absolute',
+      bottom:"5%",
+      right: 20
+    },
+
+    icon: {
+      width: 15,
+      height: 15,
+      // tintColor: "grey",
+  }
 })

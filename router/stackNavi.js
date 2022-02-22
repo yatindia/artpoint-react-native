@@ -29,7 +29,7 @@ const product_screens = {
 }
 
 const fav_screens = {
-    "Fav": Favorites,
+    "Favorites": Favorites,
     Order: OrderProduct,
 }
 

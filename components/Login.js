@@ -32,7 +32,6 @@ export default function Login({ navigation }) {
         
           if (res.status) {
             setErr(false);
-            console.log(res.data);
             localStorage.setItem('login', JSON.stringify(res))
             navigation.navigate("Home")
           } else {

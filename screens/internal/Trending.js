@@ -1,4 +1,4 @@
-import { View, Pressable, StyleSheet, Alert, FlatList, Text} from 'react-native'
+import { View, Pressable, StyleSheet, Alert, FlatList, Text, Dimensions} from 'react-native'
 import React, {useEffect, useState} from 'react'
 import ImageView from "../internal/ImageView";
 import { API } from '../../data'
@@ -9,18 +9,24 @@ export default function Trending({props}) {
   const [products, setProducts] = useState([])
 
   useEffect(async ()=>{
+    let unmounted = false
       await fetch(`${API}/products/list_trend`, {
         method: "POST",
         headers:{"Content-Type": "application/json"},
       })
       .then(res => res.json())
       .then(res=> {
-        setProducts(res.data)
+        
+        if (!unmounted) {
+          setProducts(res.data)
+        }
 
        
       })
 
-      return ()=>{setProducts([])}
+      return ()=>{
+        unmounted = true
+      }
 
   },[])
 
@@ -74,23 +80,87 @@ export default function Trending({props}) {
 }
 
 
+// const style = StyleSheet.create({
+
+//   category_text_container: {
+//     marginTop: 50
+//   },
+
+//   sub_container: {
+//       margin: 10,
+//       marginBottom: 0,
+//       padding: 5,
+//       backgroundColor:"brown",
+//       borderRadius: 5
+//   },
+
+//   category_text: {
+//     textTransform: 'uppercase',
+//     fontWeight:'bold',
+//     fontSize: 25,
+//     textAlign: "center"
+//   },
+
+    
+//   })
+
+const [width, height] = [Dimensions.get("screen").width, Dimensions.get("screen").height]
+
 const style = StyleSheet.create({
-
-  category_text_container: {
-    marginTop: 50
-  },
-
-  sub_container: {
-      margin: 15,
-      marginBottom: 0,
-  },
 
   category_text: {
     textTransform: 'uppercase',
     fontWeight:'bold',
     fontSize: 25,
-    textAlign: "center"
+    textAlign: "center",
+    marginTop: "5%"
   },
 
-    
-  })
+  image : {
+      borderRadius: 10,
+      // backgroundColor: "red",
+      overflow: 'hidden',
+      elevation: 5
+
+    },
+
+  container: {
+      // flexDirection: "row",
+      // flexWrap: "wrap"
+
+  },
+
+  sub_container: {
+      margin: 15,
+      marginBottom: 0,
+      
+  },
+
+  buttons: {
+      flexDirection: "row",
+      justifyContent: 'center',
+      margin: 0,
+      padding: 0,
+      elevation: 6
+  },
+  button: {
+      width: width/4.2,
+      justifyContent: "center",
+      alignItems: 'center',
+      height: 30,
+      backgroundColor: "#fff",
+      width: 30,
+      height: 30,
+      marginLeft: 10,
+      marginRight: 10,
+      borderRadius: 15,
+      marginTop: -15,
+      elevation: 1
+      
+  },
+  icon: {
+      width: 15,
+      height: 15,
+      // tintColor: "grey",
+  }
+})

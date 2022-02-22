@@ -71,7 +71,7 @@ export default function Order({props}) {
     
     useEffect(async ()=>
     {
-        console.log(distributerId);
+ 
         setOrder({
             product_id : data._id ,
             order_details  :{
